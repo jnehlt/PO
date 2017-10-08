@@ -1,7 +1,7 @@
-
+//con.c
 #include "con.h"
 
-int validate(int argc, const char** argv)
+void validate(int argc, const char** argv)
 {
     if(argv == NULL) abort();   //in case of argv adress error
     if(argc < 3)
@@ -10,13 +10,11 @@ int validate(int argc, const char** argv)
         {
             printf("There is nothing to concatanate\n");
             printf("%s\n\n", argv[1]);
-            return 0;
+            return;
         }
         printf("Insufficient number of arguments\n");
         abort();
     }
-    
-    return 0;
 }
 
 void init(char** new_str)
