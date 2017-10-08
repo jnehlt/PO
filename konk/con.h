@@ -8,7 +8,7 @@
     #include <stdlib.h>
     #include <string.h>
     
-    int validate(int, const char**);
+    void validate(int, const char**);
     void init(char**);
     void concatanate(char**, const char**, const int);
 
