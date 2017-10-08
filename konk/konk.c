@@ -7,7 +7,7 @@ int main(int argc, const char** argv)
 {
     char* new_str = NULL;
 
-    if(validate(argc, argv)) abort();
+    validate(argc, argv);
     init(&new_str);
     concatanate(&new_str, argv, argc);
 
