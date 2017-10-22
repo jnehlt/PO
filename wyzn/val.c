@@ -88,13 +88,22 @@ int val(float* matrix, int degree, FILE* inputData)
 
 int fly(FILE* inputData)
 {
-    int i = 0;
+    int i = 0, redundant = 0;
+    char c;
     while(1)
     {
-        char c = fgetc(inputData);
+            c = fgetc(inputData);
         if(isdigit(c))
         {
-            while(isdigit(c = fgetc(inputData)) || c == '.');
+            while(isdigit(c = fgetc(inputData)) || c == '.')
+            {
+                if(c == '.' || c == '-')
+                    redundant = 1;
+                else
+                    redundant = 0;
+            }
+            if(redundant)
+                return -1;
             ++i;
         }
         if(c == '-')

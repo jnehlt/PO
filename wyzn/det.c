@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include "det.h"
 #include "val.h"
 
 void printMatrix(float** matrix, int degree)
@@ -20,7 +21,7 @@ void printMatrix(float** matrix, int degree)
 int quickCheckOfDet(float** matrix, int degree)
 {
     float sumR = 0, sumC = 0;
-    int i = 0, j;
+    int i = 0, j, numOfOperations = 0;
     for(; i < degree; ++i)
     {
         for(j = 0; j < degree; ++j)
@@ -29,20 +30,20 @@ int quickCheckOfDet(float** matrix, int degree)
             sumC += matrix[j][i];
         }
         if(sumR == 0 || sumC == 0)
-            return 1;
+            return 0;
         sumR = sumC = 0;
     }
     for(j = 0; j < degree; ++j)
     {
         if(!matrix[j][j])
-            optimizeMatrix(matrix, j, degree);
+            numOfOperations = optimizeMatrix(matrix, j, degree);
     }
-    return 0;
+    return numOfOperations;
 }
 
-void optimizeMatrix(float** matrix, int j, int degree)
+int optimizeMatrix(float** matrix, int j, int degree)
 {   //switch rows
-    int i = 0;
+    int i = 0, numOfOperations = 0;
     for(; i < degree; ++i)
     {   //search non-zero diagonal...
         if(matrix[i][j] && matrix[j][i])
@@ -51,8 +52,10 @@ void optimizeMatrix(float** matrix, int j, int degree)
             temp = matrix[i];
             matrix[i] = matrix[j];
             matrix[j] = temp;
+            ++numOfOperations;
         }
     }
+    return numOfOperations;
 }
 
 float LUdecomposition(float** matrix, int degree)
@@ -96,7 +99,7 @@ float LUdecomposition(float** matrix, int degree)
             }
         }
     }
-    
+
     det = 1;
     for(i = 0; i < degree; ++i)
         det *= LU[i][i];

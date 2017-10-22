@@ -3,7 +3,7 @@
 
     void printMatrix(float**, int);
     int quickCheckOfDet(float**, int);
-    void optimizeMatrix(float**, int, int);
+    int optimizeMatrix(float**, int, int);
     float LUdecomposition(float**, int);
 
 #endif
