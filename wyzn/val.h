@@ -7,6 +7,6 @@
     int val(float*, int, FILE*);
     int fly(FILE*);
     int fillMatrix(float*, int, FILE*);
-    extern void err(FILE*, char*, float**, float**, int*, int*, int);
+    void err(FILE*, char*, float**, float**, int*, int*, int);
 
 #endif

@@ -21,7 +21,7 @@ void printMatrix(float** matrix, int degree)
 int quickCheckOfDet(float** matrix, int degree)
 {
     float sumR = 0, sumC = 0;
-    int i = 0, j, numOfOperations = 0;
+    int i = 0, j, numOfOperations = 2;
     for(; i < degree; ++i)
     {
         for(j = 0; j < degree; ++j)
@@ -99,7 +99,6 @@ float LUdecomposition(float** matrix, int degree)
             }
         }
     }
-
     det = 1;
     for(i = 0; i < degree; ++i)
         det *= LU[i][i];

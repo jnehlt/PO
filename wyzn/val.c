@@ -69,6 +69,7 @@ int val(float* matrix, int degree, FILE* inputData)
 {
     fpos_t guard;
     int i = 0;
+    memset(matrix, 0, degree);
     fgetpos(inputData, &guard); //stage 1
     if((i = fly(inputData)) != degree)
     {
@@ -128,7 +129,7 @@ int fillMatrix(float* matrix, int degree, FILE* inputData)
         if(fscanf(inputData, "%f", (matrix + i)) != 1)
             return -1;
         while(isdigit(c = fgetc(inputData)) || c == '-' || c == '.')
-        while((c = fgetc(inputData)) && c != 0x0A);   //rzuć okiem na spacje i tabulatory po ostatnich znakach
+        while((c = fgetc(inputData)) && c != 0x0A);
     }
     return 0;
 }
