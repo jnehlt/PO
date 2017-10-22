@@ -17,6 +17,8 @@ int main(const int argc, const char** argv)
         free(inputMatrix);
     }
     printMatrix(inputMatrix, deg);
+    
+    printf("numOfOperations = %d\n", numOfOperations);
 
     det = LUdecomposition(inputMatrix, deg);
     det = (numOfOperations % 2) ? -det : det;

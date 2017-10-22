@@ -36,23 +36,25 @@ int quickCheckOfDet(float** matrix, int degree)
     for(j = 0; j < degree; ++j)
     {
         if(!matrix[j][j])
-            numOfOperations = optimizeMatrix(matrix, j, degree);
+            numOfOperations += optimizeMatrix(matrix, &j, degree);
     }
     return numOfOperations;
 }
 
-int optimizeMatrix(float** matrix, int j, int degree)
+int optimizeMatrix(float** matrix, int* j, int degree)
 {   //switch rows
     int i = 0, numOfOperations = 0;
     for(; i < degree; ++i)
     {   //search non-zero diagonal...
-        if(matrix[i][j] && matrix[j][i])
+        if(matrix[i][*j] && matrix[*j][i])
         {   //...and swap
             float* temp = NULL;
             temp = matrix[i];
-            matrix[i] = matrix[j];
-            matrix[j] = temp;
+            matrix[i] = matrix[*j];
+            matrix[*j] = temp;
             ++numOfOperations;
+            --*j;
+            break;
         }
     }
     return numOfOperations;
