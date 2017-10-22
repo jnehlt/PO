@@ -4,6 +4,6 @@
     void printMatrix(float**, int);
     int quickCheckOfDet(float**, int);
     int optimizeMatrix(float**, int, int);
-    float LUdecomposition(float**, int);
+    double LUdecomposition(float**, int);
 
 #endif

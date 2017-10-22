@@ -58,55 +58,64 @@ int optimizeMatrix(float** matrix, int j, int degree)
     return numOfOperations;
 }
 
-float LUdecomposition(float** matrix, int degree)
+double LUdecomposition(float** matrix, int degree)
 {
-    int LUi = 0, i, j, k;
-    float** LU;
-    float det = 0;
-    if((LU = (float**)malloc(sizeof(float*) * degree)) == NULL) 
-        err(NULL, NULL, matrix, LU, &degree, NULL, 7);
-    for(; LUi < degree; ++LUi)
+    int Li = 0, Ui = 0, i, j, k;
+    float** L, **U;
+    double det = 0;
+    if((L = (float**)malloc(sizeof(float*) * degree)) == NULL) 
+        err(NULL, NULL, matrix, L, &degree, NULL, 7);
+    for(; Li < degree; ++Li)
     {
-        if((LU[LUi] = (float*)malloc(sizeof(float) * degree)) == NULL)
-            err(NULL, NULL, matrix, LU, &degree, &LUi, 6);
-        memset(LU[LUi], 0, degree);
+        if((L[Li] = (float*)malloc(sizeof(float) * degree)) == NULL)
+            err(NULL, NULL, matrix, L, &degree, &Li, 6);
+        memset(L[Li], 0, degree);
+    }
+
+    if((U = (float**)malloc(sizeof(float*) * degree)) == NULL) 
+        err(NULL, NULL, matrix, U, &degree, NULL, 7);
+    for(; Ui < degree; ++Ui)
+    {
+        if((U[Ui] = (float*)malloc(sizeof(float) * degree)) == NULL)
+            err(NULL, NULL, matrix, U, &degree, &Ui, 6);
+        memset(U[Ui], 0, degree);
     }
 
     for(i = 0; i < degree; ++i)
     {
         for(j = 0; j < degree; ++j)
         {
-            if(i < j)
-                LU[j][i] = 0;
-            else
+            if(j >= i)
             {
-                LU[j][i] = matrix[j][i];
+                L[j][i] = matrix[j][i];
                 for(k = 0; k < i; ++k)
-                    LU[j][i] = LU[j][i] - LU[j][k] * LU[k][i];
+                    L[j][i] = L[j][i] - L[j][k] * U[k][i];
             }
         }
         for(j = 0; j < degree; ++j)
         {
-            if(j < i)
-                LU[i][j] = 0;
-            else if(i == j)
-                LU[i][j] *= 1;
-            else
+            if(j > i)
             {
-                LU[i][j] = matrix[i][j] / LU[i][i];
+                U[i][j] = matrix[i][j] / L[i][i];
                 for(k = 0; k < i; ++k)
-                    LU[i][j] = LU[i][j] - ((LU[i][k] * LU[k][j]) / LU[i][i]);
+                    U[i][j] = U[i][j] - ((L[i][k] * U[k][j]) / L[i][i]);
             }
+            else if(i == j)
+                U[i][j] = 1;
         }
     }
+
     det = 1;
     for(i = 0; i < degree; ++i)
-        det *= LU[i][i];
+        det *= L[i][i];
     i = 0;
 
-    while(--LUi > -1)
-        free(*(LU + LUi));
-    free(LU);
+    while(--Li > -1)
+        free(*(L + Li));
+    free(L);
+    while(--Ui > -1)
+        free(*(U + Ui));
+    free(U);
     while(i < degree)
         free(*(matrix + i++));
     free(matrix);
