@@ -40,7 +40,11 @@ float** validateInputData(int* degree, const int argc, const char** argv)
             if((_val = val(inputMatrix[i-1], *degree, inputData)))
             {
                 if(_val == 13)
+                {
+                    if(i < *degree)
+                        err(inputData, NULL, inputMatrix, NULL, &i, NULL, 3);
                     break;
+                }
                 err(inputData, NULL, inputMatrix, NULL, &i, NULL, 5);
             }
         }
