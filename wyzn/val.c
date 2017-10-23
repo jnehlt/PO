@@ -148,6 +148,7 @@ void err(FILE* file, char* buffer, float** matrix, float** LU, int* deg, int* i,
             break;
         case -1:
             printf("Function fopen() caused problem\nCheck is file exists.\nFinishing...\n\n");
+            abort();
             break;
         case 0:
             perror("ERROR WHILE READING FILE\nFile is empty or corrupted\nAborting...\n\n");
