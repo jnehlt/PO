@@ -1,120 +1,135 @@
-#include <iostream> 	// establish connection with headquarters
-#include <cstdlib>  	// establish communication protocols
-#include <cassert>	// set the secure keywords
-#include <string>   	// special abilities
+#include <iostream>
+#include <cstdlib>
+#include <cassert>
+#include <cstring>
+#include <string>
+#include <new>
+
+using namespace std;
 
 class Stack
 {
 private:
-	int* pStack;          	// POV of our sleuth
-	size_t IDofLastEl;	// index of the last child added to the nest
-	size_t numOfeel;      	// actual size of the nest
+	int* pStack;
+	size_t IDofLastEl;
+	size_t numOfeel;
 
 public:
 	void init(Stack&)
 	{
-		assert(this != NULL);							// is sleuth ready? If not -> gimme a sitrep and abort!
-		if (!(pStack = (int*)malloc(sizeof(int)* 10 /*initial size of nest*/)))
-			abort();							// unicorn has spotted us. Decompromised.
-		numOfeel = 10;								/*that initial...*/
-		IDofLastEl = 0;								// the oldest unicorn
+		assert(this != NULL);
+		if (!(pStack = new (nothrow) int[10]))
+			abort();
+		numOfeel = 10;
+		IDofLastEl = 0;
 	}
 
 	void destroy(Stack&)
 	{
-		free(pStack); // Clear to go. UNICORN AND HIS FAMILY IS DEAD
+		delete [] pStack;
 	}
 
 	void push(Stack&, int value)
 	{
-		if (IDofLastEl == numOfeel)						// is the population of unicorns growing too fast?
-		if (!(pStack = (int*)realloc(pStack, sizeof(int)* (numOfeel *= 2))))	// enlarge the nest
-			abort();							// unicorn has spotted us. Decompromised.
-		pStack[IDofLastEl++] = value;						// new unicorn has been born
+		if (IDofLastEl == numOfeel)
+    {
+      int* temp = new (nothrow) int[numOfeel *= 2];
+      if(temp == NULL)
+      {
+        cout << "Bye then.\n";
+        delete [] pStack;
+        abort();
+      }
+      memcpy(temp, pStack, IDofLastEl * sizeof(int));
+      delete [] pStack;
+      pStack = temp;
+    }
+
+		pStack[IDofLastEl++] = value;
 	}
 
 	int pop(Stack&)
 	{
-		if (IDofLastEl == 0)							// dont be greedy
+		if (IDofLastEl == 0)
 		{
-			free(pStack);
-			abort();							// our sleuth is a double agent
+      delete [] pStack;
+			abort();
 		}
-		return pStack[--IDofLastEl];						// gimme the 'hot wings'
+		return pStack[--IDofLastEl];
 	}
 
 	void clear(Stack&)
 	{
-		if (IDofLastEl == 0)							// hahaha!!!
+		if (IDofLastEl == 0)
 		{
-			free(pStack);							// nothing to do here
-			abort();							// lets put an end to this
+      delete [] pStack;
+			abort();
 		}
-		if (!(pStack = (int*)realloc(pStack, sizeof(int)* (numOfeel = 10))))	// if our Alpha is too weak to handle that
+
+    int* temp = new (nothrow) int[numOfeel = 10];
+    if(!temp)
+    {
+      cout << "Bye then.\n";
+      delete [] pStack;
+      abort();
+    }
+    delete [] pStack;
+    pStack = temp;
+
+		if (!(pStack = (int*)memset(pStack, 0, sizeof(int)* numOfeel)))
 		{
-			perror("Bye then.\n\n");					// let sleuth do the dirty job
-			abort();							// lets put an end to this
+      delete [] pStack;
+			abort();
 		}
-		if (!(pStack = (int*)memset(pStack, 0, sizeof(int)* numOfeel)))		// lets try to kill the lucky survivors
-		{
-			free(pStack);							// if Alpha wouldn't let us to do it - EXTINCTION
-			abort();							// abort the objective
-		}
-		IDofLastEl = 0;								// set a new indicator of the population
+		IDofLastEl = 0;
 	}
 
 	bool isEmpty(Stack&)
 	{
-		if (IDofLastEl) return 0;	// lets do  the recon of situation in the nest
+		if (IDofLastEl) return 0;
 		return 1;
 	}
 };
 
-int main(void)									// meanwhile... on the edge of rock
+int main(void)
 {
-	Stack stack;								// give the order to your sleuth to watch the nest
-	stack.init(stack);							// cookie-weather
+	Stack stack;
+	stack.init(stack);
 
-	stack.push(stack, 7);							//  new unicorn is being born
-	stack.push(stack, 18);							//  new unicorn is being born
-	stack.push(stack, 12);							//  new unicorn is being born
-	stack.push(stack, 593);							//  new unicorn is being born
-	stack.push(stack, 78);							//  new unicorn is being born
+	stack.push(stack, 7);
+	stack.push(stack, 18);
+	stack.push(stack, 12);
+	stack.push(stack, 593);
+	stack.push(stack, 78);
 
-	stack.isEmpty(stack) ? printf("EMPTY!\n") : printf("NOT EMPTY!\n"); 	// tell your sleuth to use his special abilities
+	stack.isEmpty(stack) ? cout << "EMPTY!\n" : cout << "NOT EMPTY!\n";
 
-	stack.push(stack, 118);							//  new unicorn is being born
-	stack.push(stack, 312);							//  new unicorn is being born
-	stack.push(stack, 53);							//  new unicorn is being born
-	stack.push(stack, 1227);						//  new unicorn is being born
-	stack.push(stack, 1885);						//  new unicorn is being born
-	stack.push(stack, 1221);						//  new unicorn is being born
-	stack.push(stack, 5853);						//  new unicorn is being born
-	stack.push(stack, 76);							//  new unicorn is being born
-	stack.push(stack, 28);							//  new unicorn is being born
-	stack.push(stack, 3121);						//  new unicorn is being born
-	stack.push(stack, 536);							//  new unicorn is being born
+	stack.push(stack, 118);
+	stack.push(stack, 312);
+	stack.push(stack, 53);
+	stack.push(stack, 1227);
+	stack.push(stack, 1885);
+	stack.push(stack, 1221);
+	stack.push(stack, 5853);
+	stack.push(stack, 76);
+	stack.push(stack, 28);
+	stack.push(stack, 3121);
+	stack.push(stack, 536);
 
 
-	printf("%d\n", stack.pop(stack));					// hot wings
-	printf("%d\n", stack.pop(stack));					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack)); 					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	printf("%d\n", stack.pop(stack));  					// hot wings
-	
-	stack.clear(stack);  							// EXTINCTION, lets try another generation
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
+	cout << stack.pop(stack) << endl;
 
-	stack.destroy(stack);  							// firestarter
+	stack.clear(stack);
 
-	return 0; 								// mission accomplished (+100Exp)
+	stack.destroy(stack);
+
+	return 0;
 }
