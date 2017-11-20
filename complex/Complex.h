@@ -49,6 +49,7 @@
 
     Complex& operator/= (const Complex& right)
     {
+      //if(right.Re == 0) etc..
       this->Re /= right.Re;
       this->Im /= right.Im;
       return *this;
