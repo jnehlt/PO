@@ -24,7 +24,8 @@ Complex operator* (const Complex& left, const Complex& right)
 
 Complex operator/ (const Complex& left, const Complex& right)
 {
-  return Complex(left.Re * right.Re, left.Im * right.Im);
+  //if(right.Re == 0) etc...
+  return Complex(left.Re / right.Re, left.Im / right.Im);
 }
 
 //external friend functions to returning; real, imaginary, amplitude or phase
