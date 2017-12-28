@@ -7,6 +7,7 @@
 
     class mapNotInitialized{};
     class notAllowed{};
+    class mapCnSen{};
 
     struct list_s
     {
